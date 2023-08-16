@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, ActivityIndicator, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import axios from 'axios';
+import { Feather } from "@expo/vector-icons";
 
 const RestaurantsListScreen = ({ navigation }) => {
   const [restaurants, setRestaurants] = useState([]);
@@ -23,11 +24,21 @@ const RestaurantsListScreen = ({ navigation }) => {
   };
 
   if (loading) {
-    return <ActivityIndicator />;
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#FFD700" />
+      </View>
+    );
   }
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity
+        style={styles.backButton}
+        onPress={() => navigation.goBack()}
+      >
+        <Feather name="chevron-left" size={30} color="white" style={{ marginTop: 25 }} />
+      </TouchableOpacity>
       <View style={styles.header}>
         <Text style={styles.headerText}>Restaurantes</Text>
       </View>
@@ -36,9 +47,12 @@ const RestaurantsListScreen = ({ navigation }) => {
         keyExtractor={item => item.id.toString()}
         renderItem={({ item }) => (
           <TouchableOpacity style={styles.card} onPress={() => navigateToDetail(item)}>
-            <Image source={{ uri: item.coverImageUrl }} style={styles.cardImage} resizeMode="cover" />
-            <View style={styles.cardInfo}>
-              <Text style={styles.cardTitle}>{item.name}</Text>
+            <View>
+              <Image source={{ uri: item.coverImageUrl }} style={styles.cardImage} resizeMode="cover" />
+              <View style={styles.darkOverlay}></View>
+              <View style={styles.cardInfo}>
+                <Text style={styles.cardTitle}>{item.name}</Text>
+              </View>
             </View>
             <FlatList
               data={item.menu}
@@ -60,16 +74,36 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#2C2C2E',
   },
+  backButton: {
+    position: "absolute",
+    top: 20,
+    left: 20,
+    zIndex: 2,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#2C2C2E',
+  },
   header: {
-    width: 414,
+    width: '100%',
     height: 98,
     backgroundColor: '#1C1C1E',
     justifyContent: 'center',
     alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.16,
+    shadowRadius: 6,
+    elevation: 5,
   },
   headerText: {
     color: '#FFF',
-    fontFamily: 'Poppins',
+    fontFamily: 'Poppins-Light',
     fontSize: 18,
     fontWeight: '700',
     lineHeight: 32,
@@ -81,13 +115,21 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     marginHorizontal: 22,
     borderRadius: 12,
-    backgroundColor: 'rgba(0, 0, 0, 0.40)',
     overflow: 'hidden',
     elevation: 5,
   },
   cardImage: {
     width: '100%',
     height: '100%',
+  },
+  darkOverlay: {
+    width: '100%',
+    height: '100%',
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    borderRadius: 12,
+    backgroundColor: 'rgba(0, 0, 0, 0.40)',
   },
   cardInfo: {
     position: 'absolute',
@@ -99,12 +141,13 @@ const styles = StyleSheet.create({
   },
   cardTitle: {
     color: '#FFF',
-    fontFamily: 'Poppins',
+    fontFamily: 'BebasNeue-Regular',
     fontSize: 32,
     fontStyle: 'normal',
     fontWeight: '700',
     lineHeight: 32,
     elevation: 5,
+    bottom: 1,
   },
   menuItemImage: {
     width: 50,

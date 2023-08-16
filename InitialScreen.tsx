@@ -2,7 +2,7 @@ import React from 'react';
 import { View, TouchableOpacity, Text, StyleSheet, Image, ImageBackground } from 'react-native';
 
 const imgBg = require('./assets/background_img2.png');
-const logoImage = require('./assets/logo.png'); // Substitua pelo caminho correto da sua imagem de logo
+const logoImage = require('./assets/logo.png'); 
 
 const InitialScreen = ({ navigation }) => {
   const navigateToRestaurants = () => {
@@ -46,9 +46,9 @@ const styles = StyleSheet.create({
     marginHorizontal: 25,
     },
   logo: {
-    width: 260, // Ajuste o tamanho da logo conforme necessário
-    height: 250, // Ajuste o tamanho da logo conforme necessário
-    marginBottom: 280,
+    width: 350, // Ajuste o tamanho da logo conforme necessário
+    height: 350, // Ajuste o tamanho da logo conforme necessário
+    marginBottom: 380,
     marginTop:-95,//Ajustar a posição do texto para cima
     alignSelf:'stretch'//Centralizar os elementos na tela
   },
